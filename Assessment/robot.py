@@ -153,5 +153,3 @@ def animate_robot(robot_position_list, object_positions_list):
     html = IPython.display.HTML(video)
     IPython.display.display(html)
 
-
-# need marking code here for correctness
