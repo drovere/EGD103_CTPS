@@ -1,0 +1,181 @@
+# Iterating over a collection
+
+In previous readings, we saw that Python allows us to store multiple elements in a single variable using a sequence like a list or a tuple, providing the ability to access and manipulate them using indexes (e.g. `my_list[0]`).
+
+However, when working with a sequence, we often need to perform operations on each element, such as printing them, summing them, or filtering them. This is where **iteration** comes into play.
+
+# The `for` loop
+
+The `for` loop allows us to go through each element of a sequence and do something with it:
+
+```python
+my_list = [1, 2, 3, 4, 5]
+for element in my_list:
+    # Do something, for example, print the element:
+    print("Current element:", element)
+```
+
+```plaintext {.output}
+Current element: 1
+Current element: 2
+Current element: 3
+Current element: 4
+Current element: 5
+```
+
+::: note | The `print` function
+
+So far, we know that the value of a variable can be displayed by putting it at the end of a code cell, and if we want to display multiple values, we can separate them with commas:
+
+```python
+first = 1
+second = 2
+first, second
+```
+
+```plaintext {.output}
+(1, 2)
+```
+
+However, when we want to display the value of a variable in the middle of a code cell, we can use the `print` function:
+
+```python
+first = 1
+print(first)
+second = 2
+second
+```
+
+```plaintext {.output}
+1
+2
+```
+
+The `print` can also be useful when we want to display a message along with the value of a variable, as in the example above.
+
+:::
+
+# Use Cases
+
+To demonstrate the capabilities of the `for` loop, let's consider a few use cases:
+
+## Summing the elements of a list
+
+In this example, we are simply re-implementing the built-in `sum` function:
+
+```python
+def sum_elements(my_list):
+    total = 0
+    for element in my_list:
+        total += element
+    return total
+
+sum_elements([1, 2, 3, 4, 5])
+```
+
+```plaintext {.output}
+15
+```
+
+::: note | The `+=` operator
+
+The `+=` operator is a shorthand for `total = total + element`.
+
+:::
+
+## Searching for an element based on a condition
+
+Sometimes it is necessary to find an element in a list that meets a certain condition, like finding the first even number:
+
+```python
+def find_first_even(my_list):
+    for element in my_list:
+        if element % 2 == 0:
+            return element
+    return None
+
+find_first_even([1, 3, 5, 2, 4, 6])
+```
+
+```plaintext {.output}
+2
+```
+
+::: note | `return` inside a loop
+
+In previous readings, we learned that the `return` statement instructs Python to exit from the function. This also applies to loops, where the `return` statement will exit the loop and the function.
+
+However, if the condition is not met, and the loop finishes without encountering a `return` statement, the function will return `None`.
+
+:::
+
+Note that the above pattern (an `if` statement inside a `for` loop) is quite common - you can imagine replacing the `element % 2 == 0` condition with any other condition, and the function will return the **first** element that meets it.
+
+## Transforming a list
+
+In this example, we are squaring each element of a list, and returning a new list with the results. The general pattern is to create an empty list, and append new elements to it based on the original list:
+
+```python
+def square_elements(my_list):
+    result = []
+    for element in my_list:
+        result.append(element ** 2)
+    return result
+
+square_elements([1, 2, 3, 4, 5])
+```
+
+```plaintext {.output}
+[1, 4, 9, 16, 25]
+```
+
+::: details | Advanced Topic: Passing a function as an argument (click to expand)
+
+You may realise that the above function is quite generic - if you want to apply a different transformation, you can replace the `element ** 2` expression with another expression, like `element + 1`, or `math.sqrt(element)`.
+
+If you want to make the function even more generic, you can **pass the transformation as an argument**:
+
+```python
+def transform_elements(my_list, transform_function):
+    result = []
+    for element in my_list:
+        result.append(transform_function(element))
+    return result
+
+def square(x):
+    return x ** 2
+
+def add_one(x):
+    return x + 1
+
+transform_elements([1, 2, 3, 4, 5], square)
+```
+
+```plaintext {.output}
+[1, 4, 9, 16, 25]
+```
+
+```python
+transform_elements([1, 2, 3, 4, 5], add_one)
+```
+
+```plaintext {.output}
+[2, 3, 4, 5, 6]
+```
+
+```python
+import math
+transform_elements([1, 2, 3, 4, 5], math.sqrt)
+```
+
+```plaintext {.output}
+[1.0, 1.4142135623730951, 1.7320508075688772, 2.0, 2.23606797749979]
+```
+
+In a later topic, we will revisit this concept again, although you won't need to write a function that takes a function as an argument yourself, but you will need to use one.
+
+:::
+
+# Video Recap
+
+Watch the video below for a recap and demonstration of the above concepts.

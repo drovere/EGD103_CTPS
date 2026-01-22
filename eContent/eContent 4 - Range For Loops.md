@@ -1,0 +1,236 @@
+# The `range` function
+
+In the previous eContent, we learned about the `for` loop, which allows us to iterate over the elements of a list or any other sequence.
+
+However, if we simply want a sequence of numbers with a certain pattern, we can use the `range` function, instead of creating a list with all the numbers.
+
+For example, to create a list of even numbers from 0 to 10, we can use the following code:
+
+```python
+even_numbers = [0, 2, 4, 6, 8, 10]
+for number in even_numbers:
+    print(number)
+```
+
+```plaintext {.output}
+0
+2
+4
+6
+8
+10
+```
+
+Now, imagine creating a list of all even numbers from 0 to 1000 - it would be a very long list (if you are patient enough to write it)! Instead, we can use the `range` function to generate the numbers on the fly:
+
+```python
+even_numbers = range(0, 11, 2)
+for number in even_numbers:
+    print(number)
+```
+
+```plaintext {.output}
+0
+2
+4
+6
+8
+10
+```
+
+The syntax for the range function is very similar to the slicing syntax we learned before. The `range` function takes three arguments: `start`, `stop`, and `step`. 
+
+- The `start` and `step` arguments are optional, and if not provided, they default to 0 and 1, respectively. 
+- The `stop` argument is always required, and it is exclusive, meaning that the sequence will stop immediately before reaching the `stop` value.
+
+The following tables show the different ways to use the `range` function:
+
+| Syntax | Example | Description |
+| --- | --- | --- |
+| `range(stop)` | `range(5)` | Generates numbers from 0 to 4 |
+| `range(start, stop)` | `range(2, 5)` | Generates numbers from 2 to 4 |
+| `range(start, stop, step)` | `range(2, 10, 2)` | Generates even numbers from 2 to 8 |
+| `range(stop, start, -step)` | `range(10, 2, -2)` | Generates even numbers from 10 to 4 |
+
+# For loops with the `range` function
+
+The `range` function is often used in conjunction with the `for` loop to iterate over a sequence of numbers. For example, to print the squares of the numbers from 0 to 10, we can use the following code:
+
+```python
+for number in range(11):
+    print(number ** 2)
+```
+
+```plaintext {.output}
+0
+1
+4
+9
+16
+25
+36
+49
+64
+81
+100
+```
+
+Combining with the `len` function, we can iterate over the indexes of a list:
+
+```python
+points = [
+    (1, 2),
+    (3, 4),
+    (5, 6),
+    (7, 8),
+    (9, 10),
+    (11, 12)
+]
+for index in range(len(points)):
+    point = points[index]
+    print(point)
+```
+
+```plaintext {.output}
+(1, 2)
+(3, 4)
+(5, 6)
+(7, 8)
+(9, 10)
+(11, 12)
+```
+
+In this example, the `range` function generates the numbers from 0 to 5, and the `for` loop iterates over these numbers, using them as indexes to access the elements of the `points` list.
+
+# Use Cases
+
+You may argue that the above example could be implemented using the `for` loop without the `range` function, and you would be right:
+
+```python
+for point in points:
+    print(point)
+```
+
+```plaintext {.output}
+(1, 2)
+(3, 4)
+(5, 6)
+(7, 8)
+(9, 10)
+(11, 12)
+```
+
+And in such a simple case, it is indeed better to use the `for` loop without the `range` function.
+
+However, where the `range` function shines is when we need to use **more than one element of the list**, or when we need to access **elements of more than one list** in a single iteration. 
+
+## The Fibonacci sequence
+
+In mathematics, the Fibonacci sequence is a series of numbers in which each number is the sum of the two previous ones, usually starting with 0 and 1. The sequence starts like this: 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, and so on:
+
+$$
+\begin{align*}
+F_0 & = 0 \\
+F_1 & = 1 \\
+F_2 & = F_0 + F_1 = 0 + 1 = 1 \\
+F_3 & = F_1 + F_2 = 1 + 1 = 2 \\
+\dots \\
+F_n & = F_{n-2} + F_{n-1}
+\end{align*}
+$$
+
+In Python, we can use the `range` function to generate the sequence:
+
+```python
+n = 15
+fibonacci = [0, 1]
+for index in range(2, n):
+    fibonacci.append(fibonacci[index - 2] + fibonacci[index - 1])
+fibonacci
+```
+
+```plaintext {.output}
+[0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377]
+```
+
+## Parallel lists
+
+In some cases, we may have two lists that are related, and we need to access elements from both lists in a single iteration. For example, consider the following lists:
+
+```python
+original = [1, 2, 3, 4, 5]
+increment = [10, 20, 30, 40, 50]
+```
+
+If we would like to create a new list with the sum of the elements of the two lists, we can use the `range` function to iterate over the indexes of the lists:
+
+```python
+result = []
+for index in range(len(original)):
+    result.append(original[index] + increment[index])
+result
+```
+
+```plaintext {.output}
+[11, 22, 33, 44, 55]
+```
+
+This is an example of a **vector addition**, where each pair of elements from two vectors is added together, resulting in a new vector:
+
+$$
+\begin{align*}
+\begin{bmatrix}
+1 \\
+2 \\
+3 \\
+4 \\
+5 \\
+\end{bmatrix}
++
+\begin{bmatrix}
+10 \\
+20 \\
+30 \\
+40 \\
+50 \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+1 + 10 \\
+2 + 20 \\
+3 + 30 \\
+4 + 40 \\
+5 + 50 \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+11 \\
+22 \\
+33 \\
+44 \\
+55 \\
+\end{bmatrix}
+\end{align*}
+$$
+
+You may imagine that the [**dot product**](https://en.wikipedia.org/wiki/Dot_product) of two vectors can be implemented in a similar way (where the elements are multiplied and then summed):
+
+```python
+def dot_product(vector_1, vector_2):
+    result = 0
+    for index in range(len(vector_1)):
+        result += v1[index] * vector_2[index]
+    return result
+
+vect_1 = [1, 2, 3, 4, 5]
+vect_2 = [10, 20, 30, 40, 50]
+dot_product(vect_1, vect_2)
+```
+
+```plaintext {.output}
+550
+```
+
+# Video Recap
+
+Watch the video below for a recap and demonstration of the above concepts.
