@@ -1,0 +1,246 @@
+# Conditional Statements
+
+In engineering, while it is useful to know if an event is happening (like if a water tank is full), it is often more useful to know what to do when it happens. For example, if the water tank is full, we might want to turn off the pump.
+
+This is where **conditional statements** come in. They allow selection of different actions based on whether a condition, or multiple conditions are met.
+
+---
+
+# The `if` statement
+
+In Python, we use the `if` statement to perform a conditional operation. The basic syntax is:
+
+```python
+if condition:
+    # Do something
+    pass
+```
+
+Where `condition` is a boolean expression, and `pass` is a placeholder for the code to execute if the condition is `True`. If the condition is `False`, the code block is skipped.
+
+For example, consider the following function that handles the water level in a tank:
+
+```python
+def handle_water_level(water_level):
+    if water_level >= 100:
+        return "The tank is full. Turning off the pump..."
+
+# The tank overflows
+handle_water_level(101)
+```
+
+```plaintext {.output}
+'The tank is full. Turning off the pump...'
+```
+
+```python
+# The tank is not full yet
+handle_water_level(99) # No output
+```
+
+```plaintext {.output}
+```
+
+---
+
+# The `else` statement
+
+In the above example, the function `handle_water_level` does nothing if the tank is not full, but what if we want to do something else? We can use the `else` statement to handle the case when the condition is `False`.
+
+The basic syntax is:
+
+```python
+if condition:
+    # Do something
+    pass
+else:
+    # Do something else
+    pass
+```
+
+For example, if we want to print a message when the tank is not full, we can use the following function:
+
+```python
+def handle_water_level(water_level):
+    if water_level >= 100:
+        return "The tank is full. Turning off the pump..."
+    else:
+        return "The tank is not full. The pump is still running..."
+
+# The tank overflows, same as before
+handle_water_level(101)
+```
+
+```plaintext {.output}
+'The tank is full. Turning off the pump...'
+```
+
+```python
+# The tank is not full yet, but now we get a message
+handle_water_level(99)
+```
+
+```plaintext {.output}
+'The tank is not full. The pump is still running...'
+```
+
+---
+
+# The `elif` statement
+
+Sometimes we may have more than two conditions. For example, if we want to operate the pump based on the following conditions:
+
+| Water Level | Action |
+|-------------|--------|
+| Greater than, or equal to 100 | Turn off the pump |
+| Less than 100, but greater than, or equal to 80 | Slow down the pump |
+| Less than 80, but greater than, or equal to 50 | Keep the pump running |
+| Less than 50, but greater than 0 | Speed up the pump |
+| Exactly 0 | Turn on the pump |
+
+We can use the `elif` statement to handle multiple conditions. The basic syntax is:
+
+```python
+if condition1:
+    # Do something
+    pass
+elif condition2:
+    # Do something else
+    pass
+elif condition3:
+    # Do something else
+    pass
+... # More elif statements
+else:
+    # Do something else
+    pass
+```
+
+Let's implement the above logic to control the pump:
+
+```python
+def handle_water_level(water_level):
+    if water_level >= 100:
+        return "The tank is full. Turning off the pump..."
+    elif water_level >= 80:
+        return "The tank is getting full. Slowing down the pump..."
+    elif water_level >= 50:
+        return "The tank is half full. Keeping the pump running..."
+    elif water_level > 0:
+        return "The tank is almost empty. Speeding up the pump..."
+    else:
+        return "The tank is empty. Turning on the pump..."
+
+# The tank is full
+handle_water_level(101)
+```
+
+```plaintext {.output}
+'The tank is full. Turning off the pump...'
+```
+
+```python
+# The tank is getting full
+handle_water_level(90)
+```
+
+```plaintext {.output}
+'The tank is getting full. Slowing down the pump...'
+```
+
+```python
+# The tank is half full
+handle_water_level(60)
+```
+
+```plaintext {.output}
+'The tank is half full. Keeping the pump running...'
+```
+
+```python
+# The tank is almost empty
+handle_water_level(10)
+```
+
+```plaintext {.output}
+'The tank is almost empty. Speeding up the pump...'
+```
+
+```python
+# The tank is empty
+handle_water_level(0)
+```
+
+```plaintext {.output}
+'The tank is empty. Turning on the pump...'
+```
+
+---
+
+# Selection and Piecewise Functions
+
+In mathematics, a **piecewise function** is a function that uses different rules based on different conditions.
+
+For example, consider the following [Ramp function](https://en.wikipedia.org/wiki/Ramp_function) that models the current in a circuit over time. The time ($t$) is measured in milliseconds (ms), and the current ($I$) is measured in Amperes. $t = 0$ is the time the circuit is turned on.
+
+$$
+I(t) = \begin{cases} 
+      0, & t < 0 \\
+      0.05t, & 0 \leq t < 100 \\
+      5, & t \geq 100 
+   \end{cases}
+$$
+
+*The function exists because the current does not jump from 0 to 5 A instantly, but rather we assume it increases gradually over a period of 100 ms.*
+
+We can implement the above function using the `if`, `elif`, and `else` statements:
+
+```python
+def current_over_time(t):
+    if t < 0:
+        return 0
+    elif t < 100:
+        return 0.05 * t
+    else:
+        return 5
+
+# The circuit is off
+current_over_time(-1)
+```
+
+```plaintext {.output}
+0
+```
+
+```python
+# The circuit is on, but the current is still increasing
+current_over_time(50)
+```
+
+```plaintext {.output}
+2.5
+```
+
+```python
+# The circuit is on, and the current is at its maximum
+current_over_time(100)
+```
+
+```plaintext {.output}
+5
+```
+
+```python
+# The circuit has been running for a while
+current_over_time(300_000) # 300 seconds == 300,000 ms
+```
+
+```plaintext {.output}
+5
+```
+
+---
+
+# Video Recap
+
+Watch the video below for a recap and demonstration of the above concepts.
