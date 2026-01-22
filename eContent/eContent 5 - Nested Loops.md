@@ -1,0 +1,336 @@
+# Revisiting Nested Lists
+
+In a previous reading, we discussed the concept of nested lists, which are lists that contain other lists as elements:
+
+```python
+nested_list = [
+  [1, 2, 3], 
+  [4, 5, 6], 
+  [7, 8, 9]
+]
+```
+
+The `nested_list` can be accessed using indices in the same way as a regular list:
+
+```python
+print(nested_list[0])
+print(nested_list[0][1])
+```
+
+```plaintext {.output}
+[1, 2, 3]
+2
+```
+
+And it is possible to `append` or `remove` lists from the `nested_list`:
+
+```python
+nested_list.append([10, 11, 12])
+nested_list
+```
+
+```plaintext {.output}
+[[1, 2, 3], [4, 5, 6], [7, 8, 9], [10, 11, 12]]
+```
+
+```python
+nested_list.remove([4, 5, 6])
+nested_list
+```
+
+```plaintext {.output}
+[[1, 2, 3], [7, 8, 9], [10, 11, 12]]
+```
+
+In this reading, we will look at how **nested loops** can be used to manipulate nested lists.
+
+# Nested Loops
+
+A **nested loop** refers to a loop that is contained within another loop. For example:
+
+```python
+for i in range(3):
+    print("Outer loop, i =", i)
+    for j in range(3): # <-- Inner loop
+        print(i, j)
+```
+
+```plaintext {.output}
+Outer loop, i = 0
+0 0
+0 1
+0 2
+Outer loop, i = 1
+1 0
+1 1
+1 2
+Outer loop, i = 2
+2 0
+2 1
+2 2
+```
+
+Here, the outer loop (with `i`) runs three times for `i = 0`, `1`, and `2`. For each iteration of the outer loop, the inner loop (with `j`) runs three times for `j = 0`, `1`, and `2`. This results in a total of nine iterations of the inner loop.
+
+# Use Cases
+
+Nested loops are powerful tools for working with nested lists or creating patterns. Let's look at a few examples.
+
+## Print elements from a Matrix
+
+---
+
+Consider the following 4x3 matrix:
+
+```python
+matrix = [
+  [1, 2, 3], 
+  [4, 5, 6], 
+  [7, 8, 9],
+  [10, 11, 12]
+]
+```
+
+We can use a nested loop to print each element of the matrix:
+
+```python
+for row in matrix:
+    for element in row:
+        print(str(element).rjust(2), end=" ")
+    print()
+```
+
+```plaintext {.output}
+ 1  2  3 
+ 4  5  6 
+ 7  8  9 
+10 11 12 
+```
+
+::: details | The `end` parameter and the `str(num).rjust()` method (click to expand)
+
+The above code uses two new techniques:
+
+Firstly, the `end` parameter in the `print()` function is used to specify that after printing the element, an empty space should be printed instead of creating a new line, as by default, the `print()` function creates a new line after printing the element.
+
+```python
+for row in matrix:
+    for element in row:
+        print(element)
+```
+
+```plaintext {.output}
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+```
+
+When the `end` parameter is used, the output is printed on the same line:
+
+```python
+for row in matrix:
+    for element in row:
+        print(element, end=" ")
+```
+
+```plaintext {.output}
+1 2 3 4 5 6 7 8 9 10 11 12
+```
+
+As a result, the `print()` function is used after the inner loop to create a new line after each row.
+
+```python
+for row in matrix:
+    for element in row:
+        print(element, end=" ")
+    print()
+```
+
+```plaintext {.output}
+1 2 3
+4 5 6
+7 8 9
+10 11 12
+```
+
+The `str(num).rjust(2)` method has two parts:
+   - `str(num)` converts the number `num` to a string for easy formatting.
+   - `rjust(2)` method aligns the string to the right and adds spaces to the left to make the string always 2 characters wide. This is to ensure that the numbers are aligned.
+
+Changing 2 to any other number will change the width of the string:
+
+```python
+for row in matrix:
+    for element in row:
+        print(str(element).rjust(10), end=" ")
+    print()
+```
+
+```plaintext {.output}
+         1          2          3 
+         4          5          6 
+         7          8          9 
+        10         11         12 
+```
+
+:::
+
+To make the above code reusable, we can define a function:
+
+```python
+# Print a matrix with a specified width for each element
+def print_matrix(matrix, width):
+    for row in matrix:
+        for element in row:
+            print(str(element).rjust(width), end=" ")
+        print()
+
+print_matrix(matrix, 2)
+```
+
+```plaintext {.output}
+ 1  2  3 
+ 4  5  6 
+ 7  8  9 
+10 11 12 
+```
+
+## Perform Matrix Operations
+
+---
+
+We can use nested loops to perform operations on matrices, like adding two matrices:
+
+```python
+matrix1 = [
+  [1, 2, 3], 
+  [4, 5, 6], 
+  [7, 8, 9]
+]
+matrix2 = [
+  [10, 20, 30], 
+  [40, 50, 60], 
+  [70, 80, 90]
+]
+
+result = []
+num_rows = len(matrix1)     # Number of rows in matrix1
+num_cols = len(matrix1[0])  # Number of columns in matrix1
+for row_index in range(num_rows):
+    new_row = []
+    for col_index in range(num_cols):
+        new_row.append(matrix1[row_index][col_index] + matrix2[row_index][col_index])
+    result.append(new_row)
+
+print_matrix(result, 2)
+```
+
+```plaintext {.output}
+11 22 33
+44 55 66
+77 88 99
+```
+
+The above code is equivalent to the following matrix addition:
+
+$$
+
+\begin{bmatrix}
+1 & 2 & 3 \\
+4 & 5 & 6 \\
+7 & 8 & 9 \\
+\end{bmatrix}
++
+\begin{bmatrix}
+10 & 20 & 30 \\
+40 & 50 & 60 \\
+70 & 80 & 90 \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+1 + 10 & 2 + 20 & 3 + 30 \\
+4 + 40 & 5 + 50 & 6 + 60 \\
+7 + 70 & 8 + 80 & 9 + 90 \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+11 & 22 & 33 \\
+44 & 55 & 66 \\
+77 & 88 & 99 \\
+\end{bmatrix}
+
+$$
+
+We see that the above code follows a certain pattern:
+
+1. Create an **empty list** `result` to store the result.
+2. **For each row** in the matrices, create a `new_row` list to store the result of the operation on the current row.
+3. **For each element** in the row, perform the operation and append the result to `new_row`.
+4. Append `new_row` to `result`.
+5. **Repeat** steps 2-4 for each row.
+
+In fact, we can replace the `matrix1[row_index][col_index] + matrix2[row_index][col_index]` with any operation such as subtraction, multiplication, or division.
+
+## Create Patterns
+
+---
+
+Nested loops can also be used to create 2D patterns. For example, consider the pattern of a square:
+
+```python
+for y in range(5):
+    for x in range(5):
+        print("*", end="")
+    print()
+```
+
+```plaintext {.output}
+*****
+*****
+*****
+*****
+*****
+```
+
+We can modify the above code to create a triangle:
+
+```python
+for y in range(5):
+    for x in range(y + 1):
+        print("*", end="")
+    print()
+```
+
+```plaintext {.output}
+*
+**
+***
+****
+*****
+```
+
+::: note | The `range(y + 1)` expression (click to expand)
+
+In previous examples, the inner `for` loop used a `range()` of fixed lengths, such as `range(size)`, or `range(num_cols)`. However, it is also possible to use a `range()` of a changing length, such as `range(y + 1)`.
+
+In this case, when:
+
+- `y = 0`, the inner loop runs once with `x = 0`.
+- `y = 1`, the inner loop runs twice with `x = 0` and `1`.
+- `y = 2`, the inner loop runs three times with `x = 0`, `1`, and `2`.
+- etc.
+
+:::
+
+# Video Recap
+
+Watch the video below for a recap and demonstration of the above concepts.
